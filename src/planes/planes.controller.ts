@@ -8,7 +8,7 @@ export class PlanesController {
 
   //2.1.1 Obtener un plan según su id
   @Get(':id')
-  obtenerPlan(@Param() id: number, @Res() res: Response) {
+  obtenerPlan(@Param('id') id: number, @Res() res: Response) {
     const plan = this.planesService.obtenerPlan(id);
     if (plan) {
       res.status(200).send(plan);

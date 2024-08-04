@@ -15,14 +15,14 @@ export class PlanesService {
       new PlanSuscripcion(2, 'Plan estándar', 5000, '1024p', true),
     );
     this.planesSuscripcion.push(
-      new PlanSuscripcion(1, 'Plan premium', 7000, '4k', false),
+      new PlanSuscripcion(3, 'Plan premium', 7000, '4k', false),
     );
   }
 
   //2.2.2 Obtener un plan según su id, validar que exista el plan según su id, si no existe devolver un error (codigo 404, mensaje : plan no existe)
   obtenerPlan(id: number): PlanSuscripcion {
     for (let i = 0; i < this.planesSuscripcion.length; i++) {
-      if (this.planesSuscripcion[i].id === id) {
+      if (this.planesSuscripcion[i].id == +id) {
         return this.planesSuscripcion[i];
       }
     }
