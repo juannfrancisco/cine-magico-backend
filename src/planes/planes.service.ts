@@ -6,15 +6,16 @@ export class PlanesService {
   private planesSuscripcion: PlanSuscripcion[] = [];
 
   //2.2.1 El servicio debe inicializarse con los siguientes planes
+
   constructor() {
     this.planesSuscripcion.push(
-      new PlanSuscripcion(1, 'nombre', 100, '4k', false),
+      new PlanSuscripcion(1, 'Plan básico', 3000, '720p', true),
     );
     this.planesSuscripcion.push(
-      new PlanSuscripcion(1, 'nombre', 100, '4k', false),
+      new PlanSuscripcion(2, 'Plan estándar', 5000, '1024p', true),
     );
     this.planesSuscripcion.push(
-      new PlanSuscripcion(1, 'nombre', 100, '4k', false),
+      new PlanSuscripcion(1, 'Plan premium', 7000, '4k', false),
     );
   }
 
