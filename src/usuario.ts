@@ -6,6 +6,7 @@ export class Usuario {
     public id: number,
     public nombre: string,
     public correoElectronico: string,
+    public edad: number,
     public contrasena: string,
     public planSuscripcion: PlanSuscripcion,
     public historialVisualizaciones: Reproduccion[],
