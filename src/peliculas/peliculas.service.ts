@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Pelicula } from 'src/pelicula';
+import { Usuario } from 'src/usuario';
 
 @Injectable()
 export class PeliculasService {
@@ -100,5 +101,22 @@ export class PeliculasService {
       }
     }
     return false;
+  }
+
+  //5.2.1 Sugerir películas por usuario,
+  //5.2.1.1 Validar que el usuario exista si no debe devolver un error (error 404, mensaje : usuario no existe)
+  //5.2.1.2 Obtener todas las peliculas que coincidan con los generosFavoritos del usuario. (El usuario puede almacenar más de un genero como favorito)
+
+  sugerirPeliculas(usuario: Usuario) {
+    const peliculasSugeridas: Pelicula[] = [];
+    console.log(usuario);
+    for (let x = 0; x < usuario.generosFavoritos.length; x++) {
+      for (let i = 0; i < this.peliculas.length; i++) {
+        if (this.peliculas[i].genero == usuario.generosFavoritos[x]) {
+          peliculasSugeridas.push(this.peliculas[i]);
+        }
+      }
+    }
+    return peliculasSugeridas;
   }
 }

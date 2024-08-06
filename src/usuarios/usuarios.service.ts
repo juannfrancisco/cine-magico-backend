@@ -66,7 +66,7 @@ export class UsuariosService {
   //4.2.2 Obtener un usuario según su id, validar que exista el usuario según su id, si no existe devolver un error (código 404, mensaje : usuario no existe).
   obtenerUsuario(id: number) {
     for (let i = 0; i < this.usuarios.length; i++) {
-      if (this.usuarios[i].id === id) {
+      if (this.usuarios[i].id == id) {
         return this.usuarios[i];
       }
     }

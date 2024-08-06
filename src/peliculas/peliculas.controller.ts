@@ -11,10 +11,14 @@ import {
 import { Pelicula } from 'src/pelicula';
 import { PeliculasService } from './peliculas.service';
 import { Response } from 'express';
+import { UsuariosService } from 'src/usuarios/usuarios.service';
 
 @Controller('peliculas')
 export class PeliculasController {
-  constructor(private readonly peliculasService: PeliculasService) {}
+  constructor(
+    private readonly peliculasService: PeliculasService,
+    private readonly usuarioService: UsuariosService,
+  ) {}
 
   //3.1.1 Crear una nueva película
   @Post()
@@ -47,6 +51,19 @@ export class PeliculasController {
       res.status(200).send('pelicula eliminada');
     } else {
       res.status(404).send('pelicula no existe');
+    }
+  }
+
+  @Get('usuarios/:idUsuario')
+  sugerirPeliculas(
+    @Param('idUsuario') idUsuario: number,
+    @Res() res: Response,
+  ) {
+    const usuario = this.usuarioService.obtenerUsuario(idUsuario);
+    if (usuario) {
+      res.status(200).send(this.peliculasService.sugerirPeliculas(usuario));
+    } else {
+      res.status(404).send('usuario no existe');
     }
   }
 }
