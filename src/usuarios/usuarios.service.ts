@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Pelicula } from 'src/pelicula';
-import { PeliculasService } from 'src/peliculas/peliculas.service';
 import { PlanesService } from 'src/planes/planes.service';
 import { Reproduccion } from 'src/reproduccion';
 import { Usuario } from 'src/usuario';
@@ -9,10 +8,7 @@ import { Usuario } from 'src/usuario';
 export class UsuariosService {
   private usuarios: Usuario[] = [];
 
-  constructor(
-    private readonly peliculasService: PeliculasService,
-    private readonly planesServices: PlanesService,
-  ) {
+  constructor(private readonly planesServices: PlanesService) {
     this.usuarios.push(
       new Usuario(
         1,
@@ -76,7 +72,7 @@ export class UsuariosService {
   //4.2.3 Modificar un usuario según su id, solo se debe modificar los datos planSuscripcion y generosFavoritos.
   modificarUsuario(id: number, usuario: Usuario) {
     for (let i = 0; i < this.usuarios.length; i++) {
-      if (this.usuarios[i].id === id) {
+      if (this.usuarios[i].id == id) {
         this.usuarios[i].planSuscripcion = usuario.planSuscripcion;
         this.usuarios[i].generosFavoritos = usuario.generosFavoritos;
       }
@@ -88,27 +84,21 @@ export class UsuariosService {
   //4.2.4.2 Validar si la película es un estreno, el usuario puede reproducir si y sólo si tiene la suscripción premium. Si no cumple esta condición retornar error (código : 400, error : su plan no permite reproducir la película)
   //4.2.4.3 Validar si el usuario puede reproducir una película por su clasificación y la edad del cliente.  Si no cumple esta condición retornar error (código : 400, error : la película no es apta )
   //4.2.4.4 Si los puntos anteriores son correctos se debe agregar una Reproducción a la lista de historialVisualizaciones del usuario y retornar un OK
-  reproducirPelicula(idUsuario: number, idPelicula: number): number {
-    const usuario = this.obtenerUsuario(idUsuario);
-    const pelicula = this.peliculasService.obtenerPelicula(idPelicula);
-    if (pelicula) {
-      if (pelicula.estreno && usuario.planSuscripcion.id != 3) {
-        return 2;
-      }
-      if (!this.validarCalificacion(usuario, pelicula)) {
-        return 3;
-      }
-      usuario.historialVisualizaciones.push(
-        new Reproduccion(
-          usuario.historialVisualizaciones.length + 1,
-          pelicula,
-          new Date(),
-        ),
-      );
-      return 0;
-    } else {
+  reproducirPelicula(usuario: Usuario, pelicula: Pelicula): number {
+    if (pelicula.estreno && usuario.planSuscripcion.id != 3) {
       return 1;
     }
+    if (!this.validarCalificacion(usuario, pelicula)) {
+      return 2;
+    }
+    usuario.historialVisualizaciones.push(
+      new Reproduccion(
+        usuario.historialVisualizaciones.length + 1,
+        pelicula,
+        new Date(),
+      ),
+    );
+    return 0;
   }
 
   // Puede ser TE, todo espectador,
